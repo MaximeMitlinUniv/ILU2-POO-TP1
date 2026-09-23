@@ -56,4 +56,118 @@ public class Village {
 		}
 		return chaine.toString();
 	}
+
+	private class Marche {
+		private Etal[] etals;
+		
+		public Marche(int nbEtal) {
+			etals = new Etal[nbEtal];
+		}
+		
+		void utiliserEtal(int indiceEtal, Gaulois vendeur, String produit, int nbProduit) {
+			etals[indiceEtal].occuperEtal(vendeur, produit, nbProduit);
+		}
+		
+		int trouverEtalLibre() {
+
+			int i = 0;
+			while(etals[i].isEtalOccupe()) {
+				i++;
+			}
+			if(!etals[i].isEtalOccupe()) {
+				return i;
+			}
+			
+			return -1;
+		}
+		
+		Etal[] trouverEtals(String produit) {
+			Etal[] etalsAvecProduit;
+			
+			int i = 0, j = 0;
+			while(etals[i].isEtalOccupe() || !etals[i].isEtalOccupe()) {
+				try {
+					  
+					if(etals[i].contientProduit(produit)) {
+						i++;
+					}
+					
+				}
+				catch(ArrayIndexOutOfBoundsException e){
+					break;	
+				}
+			}
+			
+			etalsAvecProduit = new Etal[i];
+			i = 0;
+			
+			while(etals[i].isEtalOccupe() || !etals[i].isEtalOccupe()) {
+				try {
+					  
+					if(etals[i].contientProduit(produit)) {
+						etalsAvecProduit[j] = etals[i];
+						j++;
+						i++;
+					}
+					
+				}
+				catch(ArrayIndexOutOfBoundsException e){
+					break;	
+				}
+			}
+		
+			return etalsAvecProduit;
+		}
+
+		
+		Etal trouverVendeur(Gaulois gaulois) {
+			
+			int i = 0;
+			while(etals[i].isEtalOccupe() || !etals[i].isEtalOccupe()) {
+				try {
+					  
+					if(etals[i].getVendeur() == gaulois) {
+						return etals[i];
+					}
+					i++;
+					
+				}
+				catch(ArrayIndexOutOfBoundsException e){
+					break;	
+				}
+			}
+			
+			return null;
+		}
+		
+		void afficehrMarcher() {
+			
+			for (int i = 0;etals[i].isEtalOccupe() || !etals[i].isEtalOccupe(); i++) {
+				try {  
+					if(etals[i].isEtalOccupe()) {
+						System.out.println(etals[i].getVendeur().getNom() + " vend " + etals[i].afficherEtal().replace("L'étal de " + etals[i].getVendeur().getNom() + " est garni de ", ""));	
+					}
+				}
+				catch(ArrayIndexOutOfBoundsException e){
+					break;	
+				}
+			}
+			
+		}
+		
+		
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
